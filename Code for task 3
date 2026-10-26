@@ -1,0 +1,87 @@
+USE IS202;
+
+-- 1. Categories that products can belong to
+CREATE TABLE categories (
+    category_id INT AUTO_INCREMENT PRIMARY KEY,
+    category_name VARCHAR(100) NOT NULL UNIQUE
+);
+
+-- 2. Products available in the store
+CREATE TABLE products (
+    product_id INT AUTO_INCREMENT PRIMARY KEY,
+    category_id INT NOT NULL,
+    sku VARCHAR(50) NOT NULL UNIQUE,
+    product_name VARCHAR(150) NOT NULL,
+    description TEXT,
+    price DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (category_id) REFERENCES categories(category_id)
+);
+
+-- 3. Product images
+CREATE TABLE product_images (
+    image_id INT AUTO_INCREMENT PRIMARY KEY,
+    product_id INT NOT NULL,
+    image_url VARCHAR(255) NOT NULL,
+    alt_text VARCHAR(150),
+    FOREIGN KEY (product_id) REFERENCES products(product_id)
+);
+
+-- 4. Customers
+CREATE TABLE customers (
+    customer_id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    email VARCHAR(150) NOT NULL UNIQUE
+);
+
+-- 5. Shopping carts
+CREATE TABLE carts (
+    cart_id INT AUTO_INCREMENT PRIMARY KEY,
+    customer_id INT NOT NULL,
+    created_at DATETIME NOT NULL,
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+);
+
+-- 6. Products in each shopping cart
+CREATE TABLE cart_items (
+    cart_item_id INT AUTO_INCREMENT PRIMARY KEY,
+    cart_id INT NOT NULL,
+    product_id INT NOT NULL,
+    quantity INT NOT NULL,
+    FOREIGN KEY (cart_id) REFERENCES carts(cart_id),
+    FOREIGN KEY (product_id) REFERENCES products(product_id),
+    UNIQUE (cart_id, product_id)
+);
+
+-- 7. Customer orders
+CREATE TABLE orders (
+    order_id INT AUTO_INCREMENT PRIMARY KEY,
+    customer_id INT NOT NULL,
+    order_date DATETIME NOT NULL,
+    order_status VARCHAR(30) NOT NULL,
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+);
+
+-- 8. Products included in each order
+CREATE TABLE order_items (
+    order_item_id INT AUTO_INCREMENT PRIMARY KEY,
+    order_id INT NOT NULL,
+    product_id INT NOT NULL,
+    quantity INT NOT NULL,
+    unit_price DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (order_id) REFERENCES orders(order_id),
+    FOREIGN KEY (product_id) REFERENCES products(product_id),
+    UNIQUE (order_id, product_id)
+);
+
+-- 9. Customer product reviews
+CREATE TABLE reviews (
+    review_id INT AUTO_INCREMENT PRIMARY KEY,
+    customer_id INT NOT NULL,
+    product_id INT NOT NULL,
+    rating INT NOT NULL,
+    review_text TEXT,
+    review_date DATE NOT NULL,
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id),
+    FOREIGN KEY (product_id) REFERENCES products(product_id)
+);
