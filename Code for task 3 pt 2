@@ -1,0 +1,63 @@
+USE IS202;
+
+INSERT INTO categories (category_id, category_name)
+VALUES
+    (1, 'Gift Ideas'),
+    (2, 'Foosball Parts'),
+    (3, 'Foos Accessories');
+
+INSERT INTO products
+    (product_id, category_id, sku, product_name, description, price)
+VALUES
+    (1, 1, 'PG-BallKit', 'Deluxe Ball Kit',
+     'A variety pack containing 10 foosballs.', 34.00),
+    (2, 2, 'SAMPLE-BALL-01', 'Practice Foosballs',
+     'Sample pack of practice foosballs.', 12.00),
+    (3, 3, 'SAMPLE-GRIP-01', 'Foosball Handle Grips',
+     'Sample grips for foosball handles.', 15.00);
+
+INSERT INTO product_images
+    (image_id, product_id, image_url, alt_text)
+VALUES
+    (1, 1, '/images/deluxe-ball-kit.jpg', 'Deluxe Ball Kit'),
+    (2, 2, '/images/practice-balls.jpg', 'Practice foosballs'),
+    (3, 3, '/images/handle-grips.jpg', 'Foosball handle grips');
+
+INSERT INTO customers
+    (customer_id, first_name, last_name, email)
+VALUES
+    (1, 'Alex', 'Johnson', 'alex@example.com'),
+    (2, 'Jordan', 'Smith', 'jordan@example.com'),
+    (3, 'Taylor', 'Brown', 'taylor@example.com');
+
+INSERT INTO carts (cart_id, customer_id, created_at)
+VALUES
+    (1, 1, '2026-10-01 10:00:00'),
+    (2, 2, '2026-10-02 11:30:00'),
+    (3, 3, '2026-10-03 14:15:00');
+
+INSERT INTO cart_items (cart_item_id, cart_id, product_id, quantity)
+VALUES
+    (1, 1, 1, 1),
+    (2, 2, 2, 2),
+    (3, 3, 3, 1);
+
+INSERT INTO orders (order_id, customer_id, order_date, order_status)
+VALUES
+    (1, 1, '2026-10-04 12:00:00', 'Placed'),
+    (2, 2, '2026-10-05 13:00:00', 'Shipped'),
+    (3, 3, '2026-10-06 15:00:00', 'Delivered');
+
+INSERT INTO order_items
+    (order_item_id, order_id, product_id, quantity, unit_price)
+VALUES
+    (1, 1, 1, 1, 34.00),
+    (2, 2, 2, 2, 12.00),
+    (3, 3, 3, 1, 15.00);
+
+INSERT INTO reviews
+    (review_id, customer_id, product_id, rating, review_text, review_date)
+VALUES
+    (1, 1, 1, 5, 'Great variety of balls.', '2026-10-10'),
+    (2, 2, 2, 4, 'Good for practice.', '2026-10-11'),
+    (3, 3, 3, 5, 'Comfortable grips.', '2026-10-12');
